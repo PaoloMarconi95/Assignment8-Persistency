@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
@@ -151,7 +149,5 @@ public class CRUDGui extends JFrame {
 		tabbedPane_1.setBounds(6, 118, 535, 221);
 		contentPane.add(tabbedPane_1);
 		
-		
-		contentPane.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnCreateUser}));
 	}
 }
