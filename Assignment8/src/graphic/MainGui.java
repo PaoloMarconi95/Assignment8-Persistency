@@ -1,16 +1,17 @@
 package graphic;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
+import design.pattern.Database;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -26,6 +27,7 @@ public class MainGui extends JFrame {
 				}
 			}
 		});
+		initializeDB();
 	}
 
 	/**
@@ -34,10 +36,31 @@ public class MainGui extends JFrame {
 	public MainGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		getContentPane().setLayout(null);
+		
+		JButton btnCrudOperations = new JButton("CRUD Operations");
+		btnCrudOperations.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CRUDGui crudgui = new CRUDGui();
+				crudgui.setVisible(true);
+			}
+		});
+		btnCrudOperations.setBounds(6, 125, 133, 29);
+		getContentPane().add(btnCrudOperations);
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(176, 125, 117, 29);
+		getContentPane().add(btnLogin);
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.setBounds(327, 125, 117, 29);
+		getContentPane().add(btnSearch);
 	}
-
+	
+	
+	public static void initializeDB() {
+		Database db = new Database();
+		db.createNewDatabase("Usersdb.db");
+		Database.createUserTable(db);
+	}
 }
