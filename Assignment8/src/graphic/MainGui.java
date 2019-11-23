@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import design.pattern.Database;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,7 +26,6 @@ public class MainGui extends JFrame {
 				}
 			}
 		});
-		initializeDB();
 	}
 
 	/**
@@ -69,10 +67,4 @@ public class MainGui extends JFrame {
 		getContentPane().add(btnSearch);
 	}
 	
-	
-	public static void initializeDB() {
-		Database db = new Database();
-		db.createNewDatabase("Usersdb.db");
-		Database.createUserTable(db);
-	}
 }

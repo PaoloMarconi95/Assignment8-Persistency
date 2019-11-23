@@ -89,6 +89,7 @@ public class CRUDGui extends JFrame {
 		JButton btnCreateUser = new JButton("Create User");
 		btnCreateUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnCreateUser.setBounds(27, 79, 117, 29);
