@@ -49,10 +49,22 @@ public class MainGui extends JFrame {
 		getContentPane().add(btnCrudOperations);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginGui logingui = new LoginGui();
+				logingui.setVisible(true);
+			}
+		});
 		btnLogin.setBounds(176, 125, 117, 29);
 		getContentPane().add(btnLogin);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SearchGui searchgui = new SearchGui();
+				searchgui.setVisible(true);
+			}
+		});
 		btnSearch.setBounds(327, 125, 117, 29);
 		getContentPane().add(btnSearch);
 	}
