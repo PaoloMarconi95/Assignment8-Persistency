@@ -6,6 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import design.pattern.Database;
+import design.pattern.User;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,9 +23,7 @@ public class SearchGui extends JFrame {
 	private JPanel contentPane;
 	private JTextField input;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -35,9 +37,7 @@ public class SearchGui extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public SearchGui() {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -71,8 +71,32 @@ public class SearchGui extends JFrame {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String output = Search(comboBox.getSelectedItem().toString(),
-						input.getText());
+				Database db = Database.getInstance();
+				User result = null;
+				String output;
+				String in = input.getText();
+				switch(comboBox.getSelectedItem().toString()) {
+				case "Name":
+					result = User.findByName(in, db);
+					break;
+				case "Address":
+					result = User.findByAddress(in, db);
+					break;
+				case "Best Friend":
+					result = User.findByBestFriend(in, db);
+					break;
+				
+				}
+				if(result != null) {
+				output = "Your Id : " + result.getId() + "\n" +
+						"Your Name : " + result.getName() + "\n" +
+						"Your Address : " + result.getAddress() + "\n" +
+						"Your Password : " + result.getPassword() + "\n" +
+						"Your Bestfriend : " + result.getBestfriend();
+				}
+				else {
+					output = "FAIL";
+				}
 				textOutput.append(output);
 				
 			}
@@ -83,9 +107,4 @@ public class SearchGui extends JFrame {
 
 	}
 	
-	
-	public String Search(String by, String input) {
-		// doQuery
-		return input + by;
-	}
 }

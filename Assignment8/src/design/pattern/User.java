@@ -84,6 +84,11 @@ public class User {
 		String query = selectWhere + "name == \"" + name + "\" ;";
 		return find(query, db);
 	}
+	
+	public static User findByBestFriend(String bestfriend, Database db) {
+		String query = selectWhere + "bestfriend == \"" + bestfriend + "\" ;";
+		return find(query, db);
+	}
 
 	private static User find(String query, Database db) {
 		try (Connection conn = DriverManager.getConnection(db.url)){
@@ -191,5 +196,31 @@ public class User {
     	}
     	
     }
+    
+    
+	public static User lookForPassword(String name, String password, Database db) {
+		String query = selectWhere + "name == \"" + name + "\" ;";
+		try (Connection conn = DriverManager.getConnection(db.url)){
+			Statement stmt = conn.createStatement();
+			System.out.println("sto per eseguire :\n" + query);
+			ResultSet rs = stmt.executeQuery(query);
+			boolean found = false;
+			while(rs.next() && !found) {
+				if(rs.getString("password").equals(password)) {
+					found = true;
+					User user = new User(rs.getString("id"),
+							rs.getString("name"),
+							rs.getString("address"),
+							rs.getString("password"),
+							rs.getString("bestfriend"));
+					rs.close();
+					return user;
+					}
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }
