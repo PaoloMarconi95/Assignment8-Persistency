@@ -3,4 +3,4 @@ SQLite and Eclipse project to manage a Design-Pattern implementation for a singl
 
 ### Pattern used 
 
-Row Data Gateway
+Active Record Gateway
