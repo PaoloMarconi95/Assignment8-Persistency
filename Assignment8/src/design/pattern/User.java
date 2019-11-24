@@ -18,6 +18,7 @@ public class User {
 	private final static String selectWhere = "SELECT * " + "FROM Users WHERE ";
 	private final static String insert = "INSERT INTO Users(Id, name, address, password, bestfriend) " + "VALUES(";
 	private final static String delete = "DELETE FROM Users WHERE id == ";
+    private final static String update = "UPDATE Users SET ";
 
 	public User(String id, String name, String address, String password, String bestfriend) {
 		this.id = id;
@@ -25,10 +26,6 @@ public class User {
 		this.address = address;
 		this.password = password;
 		this.bestfriend = bestfriend;
-	}
-	
-	public User() {
-		
 	}
 
 	// Getters
@@ -117,6 +114,11 @@ public class User {
 					"\"" + user.getPassword() + "\", " +
 					"\"" + user.getBestfriend() + "\"); ";
 			
+			
+        	Statement stmt1 = conn.createStatement();
+        	stmt1.execute("PRAGMA foreign_keys = ON");
+			
+			
 			System.out.println("sto per eseguire :\n" + query);
 			PreparedStatement stmt = conn.prepareStatement(query);			
 			stmt.executeUpdate();
@@ -125,15 +127,59 @@ public class User {
 		}
 	}
 	
-    public static void delete(User user, Database db) { 
+    public static boolean remove(User user, Database db) { 
         try (Connection conn = DriverManager.getConnection(db.url)){
         	String query = delete + "\"" + user.getId() + "\" ;";
         	System.out.println("sto per eseguire :\n" + query);
+        	
+        	
+        	Statement stmt = conn.createStatement();
+        	stmt.execute("PRAGMA foreign_keys = ON");
+        	
+        	
+        	PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    
+    public static void update(String id, String[] param, Database db) { 
+        try (Connection conn = DriverManager.getConnection(db.url)){  
+        	String query = update + 
+        			" name = \"" + param[0] + "\"," + 
+        			" address = \"" + param[1] + "\"," + 
+        			" password = \"" + param[2] + "\"," + 
+        			" bestfriend = \"" + param[3] + "\"" + 
+        			" WHERE id == \"" + id + "\" ;";     
+        	System.out.println("sto per eseguire :\n" + query);
+        	
+        	
+        	Statement stmt = conn.createStatement();
+        	stmt.execute("PRAGMA foreign_keys = ON");
+        	
+        	
         	PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+    
+    public boolean equals(User user2) {
+    	if(this.getId().equals(user2.getId()) &&
+    			this.getAddress().equals(user2.getAddress()) &&
+    			this.getName().equals(user2.getName()) &&
+    			this.getPassword().equals(user2.getPassword()) &&
+    			this.getBestfriend().equals(user2.getBestfriend())) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    	
     }
 
 }

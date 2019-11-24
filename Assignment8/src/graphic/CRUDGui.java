@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import design.pattern.Database;
+import design.pattern.User;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -12,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class CRUDGui extends JFrame {
 
@@ -28,6 +33,8 @@ public class CRUDGui extends JFrame {
 	private JTextField nameRead;
 	private JTextField addressRead;
 	private JPasswordField passwordRead;
+	private JTextField bestfriendCreate;
+	private JTextField bestfriendRead;
 
 	/**
 	 * Launch the application.
@@ -54,119 +61,186 @@ public class CRUDGui extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		// Labels and text input for create new User
 		idCreate = new JTextField();
 		idCreate.setBounds(33, 28, 95, 26);
 		contentPane.add(idCreate);
-		
+
 		nameCreate = new JTextField();
 		nameCreate.setBounds(180, 28, 117, 26);
 		contentPane.add(nameCreate);
 		nameCreate.setColumns(10);
-		
+
 		addressCreate = new JTextField();
 		addressCreate.setBounds(361, 28, 164, 26);
 		contentPane.add(addressCreate);
 		addressCreate.setColumns(10);
-		
+
 		JLabel lblId = new JLabel("Id");
 		lblId.setBounds(18, 33, 19, 16);
 		contentPane.add(lblId);
-		
+
 		JLabel lblName = new JLabel("Name");
 		lblName.setBounds(142, 33, 43, 16);
 		contentPane.add(lblName);
-		
+
 		JLabel lblAddress = new JLabel("Address");
 		lblAddress.setBounds(309, 33, 51, 16);
 		contentPane.add(lblAddress);
-		
+
 		passwordCreate = new JPasswordField();
-		passwordCreate.setBounds(263, 79, 145, 26);
+		passwordCreate.setBounds(201, 79, 108, 26);
 		contentPane.add(passwordCreate);
-		
+
+		bestfriendCreate = new JTextField();
+		bestfriendCreate.setBounds(395, 79, 130, 26);
+		contentPane.add(bestfriendCreate);
+
+		JLabel lblNewLabel = new JLabel("Best Friend");
+		lblNewLabel.setBounds(326, 84, 69, 16);
+		contentPane.add(lblNewLabel);
+
 		JButton btnCreateUser = new JButton("Create User");
 		btnCreateUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				User user = new User(idCreate.getText(), nameCreate.getText(), addressCreate.getText(),
+						new String(passwordCreate.getPassword()), bestfriendCreate.getText());
+				Database db = Database.getInstance();
+				User.insert(user, db);
 			}
 		});
-		btnCreateUser.setBounds(27, 79, 117, 29);
+		btnCreateUser.setBounds(18, 79, 117, 29);
 		contentPane.add(btnCreateUser);
-		
-		
-		// Labels and text input for other CRUD operations		
+
+		// Labels and text input for other CRUD operations
 		JLabel lblId_1 = new JLabel("Id");
 		lblId_1.setBounds(201, 145, 19, 16);
 		contentPane.add(lblId_1);
-		
+
 		idRead = new JTextField();
-		idRead.setBounds(220, 140, 95, 26);
+		idRead.setBounds(214, 140, 95, 26);
 		contentPane.add(idRead);
 		idRead.setColumns(10);
-		
+
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(201, 84, 61, 16);
+		lblPassword.setBounds(139, 84, 61, 16);
 		contentPane.add(lblPassword);
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(6, 0, 535, 128);
-		contentPane.add(tabbedPane);
-		
+
 		nameRead = new JTextField();
 		nameRead.setColumns(10);
-		nameRead.setBounds(68, 256, 117, 26);
+		nameRead.setBounds(91, 256, 129, 26);
 		contentPane.add(nameRead);
-		
+
 		addressRead = new JTextField();
 		addressRead.setColumns(10);
 		addressRead.setBounds(361, 256, 164, 26);
 		contentPane.add(addressRead);
-		
+
 		JLabel label_1 = new JLabel("Name");
-		label_1.setBounds(27, 261, 43, 16);
+		label_1.setBounds(43, 261, 36, 16);
 		contentPane.add(label_1);
-		
+
 		JLabel label_2 = new JLabel("Address");
-		label_2.setBounds(309, 261, 51, 16);
+		label_2.setBounds(298, 261, 51, 16);
 		contentPane.add(label_2);
-		
+
 		passwordRead = new JPasswordField();
-		passwordRead.setBounds(220, 294, 145, 26);
+		passwordRead.setBounds(89, 294, 130, 26);
 		contentPane.add(passwordRead);
-				
+
 		JLabel label_3 = new JLabel("Password");
-		label_3.setBounds(154, 299, 61, 16);
+		label_3.setBounds(18, 299, 61, 16);
 		contentPane.add(label_3);
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(6, 112, 535, 227);
-		contentPane.add(tabbedPane_1);
-		
+		JTextArea userOut = new JTextArea();
+		userOut.setWrapStyleWord(true);
+		userOut.setEditable(false);
+		userOut.setLineWrap(true);
+		userOut.setBounds(162, 173, 363, 53);
+		contentPane.add(userOut);
+
 		JButton btnFindUser = new JButton("Read User");
 		btnFindUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Database db = Database.getInstance();
+				User result = User.findById(idRead.getText(), db);
+				String out;
+				if(result != null) {
+				out = "I found this correspondance ; \n" +
+							"name = " + result.getName() + "; " +
+							"address = " + result.getAddress() + "; " +
+							"password = " + result.getPassword() + "; " +
+							"bestfriend = " + result.getBestfriend() + "; ";
+				}
+				else {
+					out = "No result found with id = " + idRead.getText();
+				}				
+				userOut.setText(null);
+				userOut.append(out);
 			}
 		});
-		btnFindUser.setBounds(33, 187, 117, 29);
+		btnFindUser.setBounds(384, 140, 117, 29);
 		contentPane.add(btnFindUser);
-		
+
 		JButton btnDeleteUser = new JButton("Update User");
 		btnDeleteUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Database db = Database.getInstance();
+				User user = User.findById(idRead.getText(), db);
+				String out;
+				if(user != null) {
+					String[] param = new String[4];
+					param[0] = nameRead.getText();
+					param[1] = addressRead.getText();
+					param[2] = new String(passwordRead.getPassword());
+					param[3] = bestfriendRead.getText();
+					User.update(idRead.getText(), param, db);
+					out = "User correctly updated";
+				}
+				else {
+					out = "No result found with id = " + idRead.getText();
+				}
+				userOut.setText(null);
+				userOut.append(out);
 			}
 		});
-		btnDeleteUser.setBounds(210, 187, 117, 29);
+		btnDeleteUser.setBounds(33, 197, 117, 29);
 		contentPane.add(btnDeleteUser);
-		
+
 		JButton btnRemoveUser = new JButton("Remove User");
 		btnRemoveUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Database db = Database.getInstance();
+				User user = User.findById(idRead.getText(), db);
+				String out;
+				if (user != null) {
+					if (User.remove(user, db)) {
+						out = "User correctly removed";
+					} else {
+						out = "Something went wrong with user's deletion";
+					}
+				} else {
+					out = "No result found with id = " + idRead.getText();
+				}
+				userOut.setText(null);
+				userOut.append(out);
 			}
 		});
-		btnRemoveUser.setBounds(408, 187, 117, 29);
+		btnRemoveUser.setBounds(33, 140, 117, 29);
 		contentPane.add(btnRemoveUser);
-		
+
+		JLabel lblBestFriend = new JLabel("Best Friend");
+		lblBestFriend.setBounds(280, 299, 75, 16);
+		contentPane.add(lblBestFriend);
+
+		bestfriendRead = new JTextField();
+		bestfriendRead.setBounds(361, 294, 164, 26);
+		contentPane.add(bestfriendRead);
+
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(6, 0, 535, 135);
+		contentPane.add(tabbedPane);
+
 	}
 }
