@@ -85,7 +85,7 @@ public class User {
 		return find(query, db);
 	}
 
-	public static User find(String query, Database db) {
+	private static User find(String query, Database db) {
 		try (Connection conn = DriverManager.getConnection(db.url)){
 			Statement stmt = conn.createStatement();
 			System.out.println("sto per eseguire :\n" + query);
@@ -105,14 +105,22 @@ public class User {
 		return null;
 	}
 
-	public static void insert(User user, Database db) {
+	public static boolean insert(User user, Database db) {
+		// SQLite, "null" != null
+		String bestfriend ;
+		if(user.getBestfriend().equals("")) {
+			bestfriend = null;
+		}
+		else {
+			bestfriend = "\"" + user.getBestfriend() + "\"";
+		}			
 		try (Connection conn = DriverManager.getConnection(db.url)) {
 			String query = insert +
 					"\"" + user.getId() + "\", " +
 					"\"" + user.getName() + "\", " + 
 					"\"" + user.getAddress()	+ "\", " +
 					"\"" + user.getPassword() + "\", " +
-					"\"" + user.getBestfriend() + "\"); ";
+					bestfriend + "); ";
 			
 			
         	Statement stmt1 = conn.createStatement();
@@ -124,7 +132,9 @@ public class User {
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return false;
 		}
+		return true;
 	}
 	
     public static boolean remove(User user, Database db) { 

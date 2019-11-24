@@ -61,6 +61,14 @@ public class CRUDGui extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		//Output pane first
+		JTextArea userOut = new JTextArea();
+		userOut.setWrapStyleWord(true);
+		userOut.setEditable(false);
+		userOut.setLineWrap(true);
+		userOut.setBounds(162, 173, 363, 53);
+		contentPane.add(userOut);
 
 		// Labels and text input for create new User
 		idCreate = new JTextField();
@@ -107,7 +115,17 @@ public class CRUDGui extends JFrame {
 				User user = new User(idCreate.getText(), nameCreate.getText(), addressCreate.getText(),
 						new String(passwordCreate.getPassword()), bestfriendCreate.getText());
 				Database db = Database.getInstance();
-				User.insert(user, db);
+				String out = "User Correctly Created";
+				if(!(User.insert(user, db))) {
+					if(User.findById(user.getId(), db) == null)
+					out = "Cannot create the user since the bestfriend with user id =  " + bestfriendCreate.getText() 
+					+ " does not exist.";
+					else {
+						out = "User with id = " + idCreate.getText() + " already exists";
+					}
+				}
+				userOut.setText(null);
+				userOut.append(out);
 			}
 		});
 		btnCreateUser.setBounds(18, 79, 117, 29);
@@ -152,13 +170,6 @@ public class CRUDGui extends JFrame {
 		JLabel label_3 = new JLabel("Password");
 		label_3.setBounds(18, 299, 61, 16);
 		contentPane.add(label_3);
-		
-		JTextArea userOut = new JTextArea();
-		userOut.setWrapStyleWord(true);
-		userOut.setEditable(false);
-		userOut.setLineWrap(true);
-		userOut.setBounds(162, 173, 363, 53);
-		contentPane.add(userOut);
 
 		JButton btnFindUser = new JButton("Read User");
 		btnFindUser.addActionListener(new ActionListener() {
@@ -187,19 +198,23 @@ public class CRUDGui extends JFrame {
 		btnDeleteUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db = Database.getInstance();
-				User user = User.findById(idRead.getText(), db);
 				String out;
-				if(user != null) {
-					String[] param = new String[4];
-					param[0] = nameRead.getText();
-					param[1] = addressRead.getText();
-					param[2] = new String(passwordRead.getPassword());
-					param[3] = bestfriendRead.getText();
-					User.update(idRead.getText(), param, db);
-					out = "User correctly updated";
-				}
-				else {
-					out = "No result found with id = " + idRead.getText();
+				User user = User.findById(idRead.getText(), db);
+				// If the new bestfriend does not exists, cancel the operation
+				if (User.findById(bestfriendRead.getText(), db) == null) {
+					out = "Bestfriend does not exists (id = " + bestfriendRead.getText() + ")";
+				} else {
+					if (user != null) {
+						String[] param = new String[4];
+						param[0] = nameRead.getText();
+						param[1] = addressRead.getText();
+						param[2] = new String(passwordRead.getPassword());
+						param[3] = bestfriendRead.getText();
+						User.update(idRead.getText(), param, db);
+						out = "User correctly updated";
+					} else {
+						out = "No result found with id = " + idRead.getText();
+					}
 				}
 				userOut.setText(null);
 				userOut.append(out);
