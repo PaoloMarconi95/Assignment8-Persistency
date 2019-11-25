@@ -24,15 +24,16 @@ String error = (String)request.getAttribute("error");
 Id: <input type="text" name="id"><br>
 Name: <input type="text" name="name"><br>
 Address: <input type="text" name="address"><br>
-Password: <input type="text" name="password"><br>
+Password: <input type="password" name="password"><br>
 BestFriend: <input type="text" name="bestfriend"><br>
 
-<button type="submit" name="create" value="Register">Register</button>
+<button type="submit" name="operation" value="create">Register</button>
 
 </form>
 
-<% if(error != null)%>
+<% if(error != null){%>
 	<h3 style="color:red;">${error}</h3>
+<% }%>
 
 go <a href="/Assignment8/index.jsp">back</a>
 

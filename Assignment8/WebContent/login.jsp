@@ -8,12 +8,25 @@
 </head>
 <body>
 Login
-<form name="frm" method="get" action="/Homework/Controller">
-Username: <input type="text" name="username">
-Password: <input type="text" name="password">
-<button type="submit" name="command" value="Login">Login</button>
+
+<form name="frm" method="post" action="/Assignment8/Create">
+
+Name: <input type="text" name="name">
+Password: <input type="password" name="password">
+
+<button type="submit" name="operation" value="login">Login</button>
+
 </form>
 
-go <a href="/Homework/index.jsp">back</a>
+
+<% String error = (String)request.getAttribute("error"); 
+if(error != null){
+%>
+	<h3 style="color:red;">${error}</h3>
+<%
+}
+%>
+
+go <a href="/Assignment8/index.jsp">back</a>
 </body>
 </html>

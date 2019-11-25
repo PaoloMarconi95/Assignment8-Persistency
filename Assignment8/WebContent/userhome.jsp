@@ -3,23 +3,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="design.pattern.User"%>
 
-<%
-String username=(String)request.getAttribute("username");
-User user=(User)request.getAttribute("user");
-%>
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Front Controller Example</title>
+<title>User private page</title>
 </head>
 <body>
 
-<p>
-Hi, my name is ${user.getUsername()} and i'm  ${user.getName()}
+<h2> ${loggedUser.name}'s Profile Page</h2>
 
+<p> 
+Your id: ${loggedUser.id} <br>
+Your Name: ${loggedUser.name} <br>
+Your Address: ${loggedUser.address} <br>
+Your Password: ${loggedUser.password} <br>
+Your Best friend: ${loggedUser.bestfriend} <br>
 </p>
 
-Go <a href="login.jsp">Logout</a> 
+<h3>Update your Profile</h3>
+
+<form name="frm" method="post" action="/Assignment8/Create">
+
+Id: <input type="text" name="id"><br>
+Name: <input type="text" name="name"><br>
+Address: <input type="text" name="address"><br>
+Password: <input type="password" name="password"><br>
+BestFriend: <input type="text" name="bestfriend"><br>
+
+<button type="submit" name="operation" value="update">Update</button>
+
+</form>
+
+	<h3 style="color:red;">${out}</h3>
+
+<a href="login.jsp">Login Page</a> 
 </body>
 </html>
