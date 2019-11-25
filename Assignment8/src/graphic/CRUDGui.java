@@ -48,9 +48,7 @@ public class CRUDGui extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public CRUDGui() {
 		setBounds(100, 100, 547, 361);
 		contentPane = new JPanel();

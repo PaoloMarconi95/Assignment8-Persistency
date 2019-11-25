@@ -69,7 +69,7 @@ public class MainGui extends JFrame {
 		JButton btnGoBack = new JButton("Exit");
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				System.exit(0);
 			}
 		});
 		btnGoBack.setBounds(167, 229, 117, 29);

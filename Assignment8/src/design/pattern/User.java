@@ -93,6 +93,7 @@ public class User {
 	private static User find(String query, Database db) {
 		try (Connection conn = DriverManager.getConnection(db.url)){
 			Statement stmt = conn.createStatement();
+			System.out.println("Sto per eseguire \n" + query);
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
 				User user = new User(rs.getString("id"),
@@ -127,6 +128,7 @@ public class User {
 					bestfriend + "); ";
         	Statement stmt1 = conn.createStatement();
         	stmt1.execute("PRAGMA foreign_keys = ON");
+			System.out.println("Sto per eseguire \n" + query);
 			PreparedStatement stmt = conn.prepareStatement(query);			
 			stmt.executeUpdate();
 		} catch (Exception e) {
@@ -141,6 +143,7 @@ public class User {
         	String query = delete + "\"" + user.getId() + "\" ;";
         	Statement stmt = conn.createStatement();
         	stmt.execute("PRAGMA foreign_keys = ON");
+			System.out.println("Sto per eseguire \n" + query);
         	PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -160,6 +163,7 @@ public class User {
         			" WHERE id == \"" + id + "\" ;";     
         	Statement stmt = conn.createStatement();
         	stmt.execute("PRAGMA foreign_keys = ON");
+			System.out.println("Sto per eseguire \n" + query);
         	PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -172,6 +176,7 @@ public class User {
 		String query = selectWhere + "name == \"" + name + "\" ;";
 		try (Connection conn = DriverManager.getConnection(db.url)){
 			Statement stmt = conn.createStatement();
+			System.out.println("Sto per eseguire \n" + query);
 			ResultSet rs = stmt.executeQuery(query);
 			boolean found = false;
 			while(rs.next() && !found) {

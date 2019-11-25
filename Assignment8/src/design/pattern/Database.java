@@ -31,12 +31,20 @@ public class Database {
 		String url = "jdbc:sqlite:" + fileName;
 		this.url = url;
 
-		try (Connection conn = DriverManager.getConnection(url)) {
+		try{
+	        try {
+				Class.forName("org.sqlite.JDBC");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			Connection conn = DriverManager.getConnection(url);
 			if (conn != null) {
 				conn.getMetaData();
+				System.out.println("Connsessione stabilita");
 			}
 
 		} catch (SQLException e) {
+			System.out.println("L'errore è qui");
 			System.out.println(e.getMessage());
 		}
 	}
@@ -57,6 +65,7 @@ public class Database {
             // create a new table
             stmt.execute("PRAGMA foreign_keys = ON");
             stmt.execute(sql);
+            System.out.println("Tabella Creata");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
