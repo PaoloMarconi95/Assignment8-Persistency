@@ -91,6 +91,15 @@ public class LoginGui extends JFrame {
 		});
 		btnLogin.setBounds(170, 149, 117, 29);
 		contentPane.add(btnLogin);
+		
+		JButton btnGoBack = new JButton("Go Back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnGoBack.setBounds(167, 229, 117, 29);
+		contentPane.add(btnGoBack);
 				
 
 	}

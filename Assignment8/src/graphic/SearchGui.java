@@ -65,7 +65,7 @@ public class SearchGui extends JFrame {
 		
 		JTextArea textOutput = new JTextArea();
 		textOutput.setEditable(false);
-		textOutput.setBounds(32, 120, 381, 140);
+		textOutput.setBounds(32, 130, 381, 86);
 		getContentPane().add(textOutput);
 		
 		JButton btnSearch = new JButton("Search");
@@ -75,6 +75,7 @@ public class SearchGui extends JFrame {
 				User result = null;
 				String output;
 				String in = input.getText();
+				textOutput.setText(null);
 				switch(comboBox.getSelectedItem().toString()) {
 				case "Name":
 					result = User.findByName(in, db);
@@ -95,7 +96,7 @@ public class SearchGui extends JFrame {
 						"Your Bestfriend : " + result.getBestfriend();
 				}
 				else {
-					output = "FAIL";
+					output = "No Result";
 				}
 				textOutput.append(output);
 				
@@ -103,6 +104,15 @@ public class SearchGui extends JFrame {
 		});
 		btnSearch.setBounds(160, 79, 117, 29);
 		contentPane.add(btnSearch);
+		
+		JButton btnGoBack = new JButton("Go Back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnGoBack.setBounds(160, 229, 117, 29);
+		contentPane.add(btnGoBack);
 	
 
 	}

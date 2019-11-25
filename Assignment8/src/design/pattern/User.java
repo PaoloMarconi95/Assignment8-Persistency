@@ -93,7 +93,6 @@ public class User {
 	private static User find(String query, Database db) {
 		try (Connection conn = DriverManager.getConnection(db.url)){
 			Statement stmt = conn.createStatement();
-			System.out.println("sto per eseguire :\n" + query);
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
 				User user = new User(rs.getString("id"),
@@ -126,13 +125,8 @@ public class User {
 					"\"" + user.getAddress()	+ "\", " +
 					"\"" + user.getPassword() + "\", " +
 					bestfriend + "); ";
-			
-			
         	Statement stmt1 = conn.createStatement();
         	stmt1.execute("PRAGMA foreign_keys = ON");
-			
-			
-			System.out.println("sto per eseguire :\n" + query);
 			PreparedStatement stmt = conn.prepareStatement(query);			
 			stmt.executeUpdate();
 		} catch (Exception e) {
@@ -145,13 +139,8 @@ public class User {
     public static boolean remove(User user, Database db) { 
         try (Connection conn = DriverManager.getConnection(db.url)){
         	String query = delete + "\"" + user.getId() + "\" ;";
-        	System.out.println("sto per eseguire :\n" + query);
-        	
-        	
         	Statement stmt = conn.createStatement();
         	stmt.execute("PRAGMA foreign_keys = ON");
-        	
-        	
         	PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -169,13 +158,8 @@ public class User {
         			" password = \"" + param[2] + "\"," + 
         			" bestfriend = \"" + param[3] + "\"" + 
         			" WHERE id == \"" + id + "\" ;";     
-        	System.out.println("sto per eseguire :\n" + query);
-        	
-        	
         	Statement stmt = conn.createStatement();
         	stmt.execute("PRAGMA foreign_keys = ON");
-        	
-        	
         	PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -183,26 +167,11 @@ public class User {
         }
     }
     
-    public boolean equals(User user2) {
-    	if(this.getId().equals(user2.getId()) &&
-    			this.getAddress().equals(user2.getAddress()) &&
-    			this.getName().equals(user2.getName()) &&
-    			this.getPassword().equals(user2.getPassword()) &&
-    			this.getBestfriend().equals(user2.getBestfriend())) {
-    		return true;
-    	}
-    	else {
-    		return false;
-    	}
-    	
-    }
-    
     
 	public static User lookForPassword(String name, String password, Database db) {
 		String query = selectWhere + "name == \"" + name + "\" ;";
 		try (Connection conn = DriverManager.getConnection(db.url)){
 			Statement stmt = conn.createStatement();
-			System.out.println("sto per eseguire :\n" + query);
 			ResultSet rs = stmt.executeQuery(query);
 			boolean found = false;
 			while(rs.next() && !found) {
@@ -218,7 +187,7 @@ public class User {
 					}
 				}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return null;
 	}

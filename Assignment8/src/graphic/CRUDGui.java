@@ -20,9 +20,7 @@ import javax.swing.JTextArea;
 
 public class CRUDGui extends JFrame {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField idCreate;
@@ -36,9 +34,7 @@ public class CRUDGui extends JFrame {
 	private JTextField bestfriendCreate;
 	private JTextField bestfriendRead;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -67,7 +63,7 @@ public class CRUDGui extends JFrame {
 		userOut.setWrapStyleWord(true);
 		userOut.setEditable(false);
 		userOut.setLineWrap(true);
-		userOut.setBounds(162, 173, 363, 53);
+		userOut.setBounds(162, 178, 363, 66);
 		contentPane.add(userOut);
 
 		// Labels and text input for create new User
@@ -254,8 +250,12 @@ public class CRUDGui extends JFrame {
 		contentPane.add(bestfriendRead);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(6, 0, 535, 135);
+		tabbedPane.setBounds(0, 0, 547, 135);
 		contentPane.add(tabbedPane);
+		
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_1.setBounds(0, 117, 547, 222);
+		contentPane.add(tabbedPane_1);
 
 	}
 }

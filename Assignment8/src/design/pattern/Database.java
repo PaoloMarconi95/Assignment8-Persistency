@@ -1,7 +1,6 @@
 package design.pattern;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,9 +33,7 @@ public class Database {
 
 		try (Connection conn = DriverManager.getConnection(url)) {
 			if (conn != null) {
-				DatabaseMetaData meta = conn.getMetaData();
-				System.out.println("The driver name is " + meta.getDriverName());
-				System.out.println("A new database has been created.");
+				conn.getMetaData();
 			}
 
 		} catch (SQLException e) {
@@ -59,11 +56,8 @@ public class Database {
             Statement stmt = conn.createStatement();
             // create a new table
             stmt.execute("PRAGMA foreign_keys = ON");
-            System.out.println("sto per eseguire :\n" + sql);
             stmt.execute(sql);
-            System.out.println("Tabella creata");
         } catch (SQLException e) {
-        	System.out.println("Tabella non creata");
             System.out.println(e.getMessage());
         }
     }

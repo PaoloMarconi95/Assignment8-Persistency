@@ -43,7 +43,7 @@ public class MainGui extends JFrame {
 				crudgui.setVisible(true);
 			}
 		});
-		btnCrudOperations.setBounds(6, 125, 133, 29);
+		btnCrudOperations.setBounds(22, 109, 133, 45);
 		getContentPane().add(btnCrudOperations);
 		
 		JButton btnLogin = new JButton("Login");
@@ -53,7 +53,7 @@ public class MainGui extends JFrame {
 				logingui.setVisible(true);
 			}
 		});
-		btnLogin.setBounds(176, 125, 117, 29);
+		btnLogin.setBounds(167, 109, 117, 45);
 		getContentPane().add(btnLogin);
 		
 		JButton btnSearch = new JButton("Search");
@@ -63,8 +63,17 @@ public class MainGui extends JFrame {
 				searchgui.setVisible(true);
 			}
 		});
-		btnSearch.setBounds(327, 125, 117, 29);
+		btnSearch.setBounds(296, 109, 117, 45);
 		getContentPane().add(btnSearch);
+		
+		JButton btnGoBack = new JButton("Exit");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnGoBack.setBounds(167, 229, 117, 29);
+		getContentPane().add(btnGoBack);
 	}
 	
 }

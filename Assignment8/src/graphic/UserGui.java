@@ -9,6 +9,9 @@ import javax.swing.border.EmptyBorder;
 import design.pattern.User;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UserGui extends JFrame {
 
@@ -42,7 +45,7 @@ public class UserGui extends JFrame {
 		JTextArea out = new JTextArea();
 		out.setLineWrap(true);
 		out.setEditable(false);
-		out.setBounds(75, 95, 304, 162);
+		out.setBounds(75, 95, 304, 107);
 		contentPane.add(out);
 		
 		JLabel welcomeLabel = new JLabel("Welcome to your login page, " + user.getName());
@@ -52,6 +55,15 @@ public class UserGui extends JFrame {
 		JLabel infoLabel = new JLabel("This is your information:");
 		infoLabel.setBounds(75, 67, 304, 16);
 		contentPane.add(infoLabel);
+		
+		JButton btnGoBack = new JButton("Go Back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnGoBack.setBounds(167, 229, 117, 29);
+		contentPane.add(btnGoBack);
 		
 		String output = "Your Id : " + user.getId() + "\n" +
 				"Your Name : " + user.getName() + "\n" +
