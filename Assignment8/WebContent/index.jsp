@@ -4,11 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Homepage</title>
+<title>Welcome</title>
 </head>
 <body>
-<h1>HomePage</h1>
-<a href="login.jsp">Login</a> <br>
+<h1>Welcome</h1>
+<a href="login.jsp">Login</a> 
+<br>
+<br>
 <a href="register.jsp">Register</a>
+<br>
+<br>
+<a href="search.jsp">Search User</a>
 </body>
 </html>

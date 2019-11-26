@@ -19,22 +19,29 @@ Your Address: ${loggedUser.address} <br>
 Your Password: ${loggedUser.password} <br>
 Your Best friend: ${loggedUser.bestfriend} <br>
 </p>
+<form name="frm" method="post" action="/Assignment8/Create">
+
+<input type="hidden" name="refId" id="refId" value="${loggedUser.id}"></input>
+
+<button type="submit" name="operation" value="delete">Delete my account</button>
+
+</form>
 
 <h3>Update your Profile</h3>
 
 <form name="frm" method="post" action="/Assignment8/Create">
-
+<p>
 Id: <input type="text" name="id"><br>
 Name: <input type="text" name="name"><br>
 Address: <input type="text" name="address"><br>
 Password: <input type="password" name="password"><br>
 BestFriend: <input type="text" name="bestfriend"><br>
-
+</p>
 <button type="submit" name="operation" value="update">Update</button>
 
 </form>
 
-	<h3 style="color:red;">${out}</h3>
+<h3 style="color:red;">${out}</h3>
 
 <a href="login.jsp">Login Page</a> 
 </body>

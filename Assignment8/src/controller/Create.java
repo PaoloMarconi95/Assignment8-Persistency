@@ -21,6 +21,44 @@ public class Create extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Database db = Database.getInstance();
+		switch (request.getParameter("operation").toString()) {
+		case "search":
+			search(request, response, db);
+			break;
+		case "login":
+			login(request, response, db);
+			break;
+		default:
+			System.out.println("error");
+		}
+		
+	}
+
+	private void search(HttpServletRequest request, HttpServletResponse response, Database db)
+			throws ServletException, IOException{
+		User result = null;
+		String value = request.getParameter("value");
+		System.out.println("valore : " + value);
+		String by = request.getParameter("by");
+		System.out.println("by : " + by);
+		switch (by) {
+		case "name":
+			result = User.findByName(value, db);
+			break;
+		case "address":
+			result = User.findByAddress(value, db);
+			break;
+		case "bestfriend":
+			result = User.findByBestFriend(value, db);
+			break;
+		}
+		if(result == null) {
+			request.setAttribute("out", "No result found");
+		}
+		request.setAttribute("loggedUser", result);
+		getServletContext().getRequestDispatcher("/search.jsp").forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -29,7 +67,6 @@ public class Create extends HttpServlet {
 		switch (request.getParameter("operation").toString()) {
 		case "create":
 			create(request, response, db);
-			getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
 			break;
 		case "login":
 			login(request, response, db);
@@ -38,11 +75,29 @@ public class Create extends HttpServlet {
 			update(request, response, db);
 			break;
 		case "delete":
-			// delete(request, response, db);
+			delete(request, response, db);
 			break;
 		default:
 			System.out.println("error");
 		}
+	}
+
+	private void delete(HttpServletRequest request, HttpServletResponse response, Database db)
+			throws ServletException, IOException{
+		System.out.println("richiesta con ID =  " + request.getParameter("refId"));
+		User user = User.findById(request.getParameter("refId"), db);
+		String out;
+		if (user != null) {
+			if (User.remove(user, db)) {
+				out = "User correctly removed";
+			} else {
+				out = "Something went wrong with user's deletion";
+			}
+		} else {
+			out = "No result found with id = " + request.getParameter("refId");
+		}
+		request.setAttribute("out", out);
+		getServletContext().getRequestDispatcher("/userhome.jsp").forward(request, response);		
 	}
 
 	private void update(HttpServletRequest request, HttpServletResponse response, Database db)
@@ -50,7 +105,7 @@ public class Create extends HttpServlet {
 		String out;
 		User user = User.findById(request.getParameter("id"), db);
 
-		// If the new bestfriend does not exists, cancel the operation
+		// If the new best friend does not exists, cancel the operation
 		if (User.findById(request.getParameter("bestfriend"), db) == null) {
 			out = "Bestfriend does not exists (id = " + request.getParameter("bestfriend") + ")";
 		} else {
@@ -72,7 +127,8 @@ public class Create extends HttpServlet {
 		getServletContext().getRequestDispatcher("/userhome.jsp").forward(request, response);
 	}
 
-	private void create(HttpServletRequest request, HttpServletResponse response, Database db) {
+	private void create(HttpServletRequest request, HttpServletResponse response, Database db)
+			throws ServletException, IOException {
 		User user = new User(request.getParameter("id"), request.getParameter("name"), request.getParameter("address"),
 				request.getParameter("password"), request.getParameter("bestfriend"));
 		String out = "User Correctly Created";
@@ -85,6 +141,7 @@ public class Create extends HttpServlet {
 			}
 		}
 		request.setAttribute("error", out);
+		getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
 	}
 
 	private void login(HttpServletRequest request, HttpServletResponse response, Database db)
