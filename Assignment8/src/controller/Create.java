@@ -36,12 +36,10 @@ public class Create extends HttpServlet {
 	}
 
 	private void search(HttpServletRequest request, HttpServletResponse response, Database db)
-			throws ServletException, IOException{
+			throws ServletException, IOException {
 		User result = null;
 		String value = request.getParameter("value");
-		System.out.println("valore : " + value);
 		String by = request.getParameter("by");
-		System.out.println("by : " + by);
 		switch (by) {
 		case "name":
 			result = User.findByName(value, db);
