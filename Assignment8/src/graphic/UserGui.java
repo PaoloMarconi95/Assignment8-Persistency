@@ -67,7 +67,7 @@ public class UserGui extends JFrame {
 		
 		String output = "Your Id : " + user.getId() + "\n" +
 				"Your Name : " + user.getName() + "\n" +
-				"Your Address : " + user.getAddress() + "\n" +
+				"Your Address : " + user.getAddress().getName() + "\n" +
 				"Your Password : " + user.getPassword() + "\n" +
 				"Your Bestfriend : " + user.getBestfriend();
 		out.append(output);

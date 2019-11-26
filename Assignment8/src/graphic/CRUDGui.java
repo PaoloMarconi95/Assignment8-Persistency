@@ -6,8 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import design.pattern.Database;
-import design.pattern.User;
+import design.pattern.*;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -106,7 +105,8 @@ public class CRUDGui extends JFrame {
 		JButton btnCreateUser = new JButton("Create User");
 		btnCreateUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				User user = new User(idCreate.getText(), nameCreate.getText(), addressCreate.getText(),
+				Address address = new Address(addressCreate.getText());
+				User user = new User(idCreate.getText(), nameCreate.getText(), address,
 						new String(passwordCreate.getPassword()), bestfriendCreate.getText());
 				Database db = Database.getInstance();
 				String out = "User Correctly Created";
@@ -174,7 +174,7 @@ public class CRUDGui extends JFrame {
 				if(result != null) {
 				out = "I found this correspondance ; \n" +
 							"name = " + result.getName() + "; " +
-							"address = " + result.getAddress() + "; " +
+							"address = " + result.getAddress().getName() + "; " +
 							"password = " + result.getPassword() + "; " +
 							"bestfriend = " + result.getBestfriend() + "; ";
 				}
@@ -192,13 +192,14 @@ public class CRUDGui extends JFrame {
 		btnDeleteUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database db = Database.getInstance();
-				String out;
+				String out = "User does not exists with id " + idRead.getText();
 				User user = User.findById(idRead.getText(), db);
-				// If the new bestfriend does not exists, cancel the operation
-				if (User.findById(bestfriendRead.getText(), db) == null) {
-					out = "Bestfriend does not exists (id = " + bestfriendRead.getText() + ")";
+				if(user != null) {
+				// If the new best friend does not exists, cancel the operation
+				if (User.findById(bestfriendRead.getText(), db) == null ||
+						Address.findByName(user.getAddress().getName(), db) == null) {
+					out = "Bestfriend or Address does not exist";
 				} else {
-					if (user != null) {
 						String[] param = new String[4];
 						param[0] = nameRead.getText();
 						param[1] = addressRead.getText();
@@ -206,12 +207,11 @@ public class CRUDGui extends JFrame {
 						param[3] = bestfriendRead.getText();
 						User.update(idRead.getText(), param, db);
 						out = "User correctly updated";
-					} else {
-						out = "No result found with id = " + idRead.getText();
 					}
 				}
 				userOut.setText(null);
 				userOut.append(out);
+				
 			}
 		});
 		btnDeleteUser.setBounds(33, 197, 117, 29);

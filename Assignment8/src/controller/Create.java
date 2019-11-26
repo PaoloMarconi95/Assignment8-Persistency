@@ -1,7 +1,6 @@
 package controller;
 
-import design.pattern.Database;
-import design.pattern.User;
+import design.pattern.*;
 
 import java.io.IOException;
 
@@ -127,7 +126,8 @@ public class Create extends HttpServlet {
 
 	private void create(HttpServletRequest request, HttpServletResponse response, Database db)
 			throws ServletException, IOException {
-		User user = new User(request.getParameter("id"), request.getParameter("name"), request.getParameter("address"),
+		Address address = new Address(request.getParameter("address"));
+		User user = new User(request.getParameter("id"), request.getParameter("name"), address,
 				request.getParameter("password"), request.getParameter("bestfriend"));
 		String out = "User Correctly Created";
 		if (!(User.insert(user, db))) {

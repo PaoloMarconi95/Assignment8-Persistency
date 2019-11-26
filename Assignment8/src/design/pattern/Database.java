@@ -16,7 +16,7 @@ public class Database {
 	public static Database getInstance() {
 		if(instance == null) {
 			Database db = new Database();
-			db.createNewDatabase("Usersdb.db");
+			db.createNewDatabase("Database.db");
 			Database.createUserTable(db);
 			instance = db;
 			return db;
@@ -44,29 +44,37 @@ public class Database {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("L'errore è qui");
 			System.out.println(e.getMessage());
 		}
 	}
 
     public static void createUserTable(Database db) {
         // SQL statement for creating a new table
-        String sql = "CREATE TABLE IF NOT EXISTS Users(\n"
+        String users = "CREATE TABLE IF NOT EXISTS Users(\n"
                 + "    id text,\n"
                 + "    name text ,\n"
                 + "    address text ,\n"
                 + "    password text ,\n"
                 + "    bestfriend text ,\n"
                 + "    PRIMARY KEY(id),\n"
-                + "    FOREIGN KEY(bestfriend) REFERENCES Users(id) ON DELETE SET NULL\n"
-                + ");";
+                + "    FOREIGN KEY(bestfriend) REFERENCES Users(id) ON DELETE SET NULL,\n"
+                + "    FOREIGN KEY(address) REFERENCES Address(name) ON DELETE SET NULL);";
+        
+        String address = "CREATE TABLE IF NOT EXISTS Address(\n"
+                + "    name text,\n"
+                + "    PRIMARY KEY(name) );";
+        		
         try (Connection conn = DriverManager.getConnection(db.url)){
             Statement stmt = conn.createStatement();
             // create a new table
             stmt.execute("PRAGMA foreign_keys = ON");
-            stmt.execute(sql);
+            stmt.execute(users);
+            System.out.println("Ho creato " + "\n" + users);
+            System.out.println("\nSto per creare " + "\n" + address);
+            stmt.execute(address);
             System.out.println("Tabella Creata");
         } catch (SQLException e) {
+            System.out.println("Errore nella creazione");
             System.out.println(e.getMessage());
         }
     }

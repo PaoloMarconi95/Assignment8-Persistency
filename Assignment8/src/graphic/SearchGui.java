@@ -91,7 +91,7 @@ public class SearchGui extends JFrame {
 				if(result != null) {
 				output = "Your Id : " + result.getId() + "\n" +
 						"Your Name : " + result.getName() + "\n" +
-						"Your Address : " + result.getAddress() + "\n" +
+						"Your Address : " + result.getAddress().getName() + "\n" +
 						"Your Password : " + result.getPassword() + "\n" +
 						"Your Bestfriend : " + result.getBestfriend();
 				}

@@ -11,7 +11,7 @@ public class User {
 
 	private String id;
 	private String name;
-	private String address;
+	private Address address;
 	private String password;
 	private String bestfriend;
 
@@ -20,7 +20,7 @@ public class User {
 	private final static String delete = "DELETE FROM Users WHERE id == ";
     private final static String update = "UPDATE Users SET ";
 
-	public User(String id, String name, String address, String password, String bestfriend) {
+	public User(String id, String name, Address address, String password, String bestfriend) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
@@ -37,7 +37,7 @@ public class User {
 		return name;
 	}
 
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
@@ -58,7 +58,7 @@ public class User {
 		this.name = name;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
@@ -96,9 +96,10 @@ public class User {
 			System.out.println("Sto per eseguire \n" + query);
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
+				Address address = Address.findByName(rs.getString("address"), db);
 				User user = new User(rs.getString("id"),
 						rs.getString("name"),
-						rs.getString("address"),
+						address,
 						rs.getString("password"),
 						rs.getString("bestfriend"));
 				rs.close();
@@ -120,10 +121,12 @@ public class User {
 			bestfriend = "\"" + user.getBestfriend() + "\"";
 		}			
 		try (Connection conn = DriverManager.getConnection(db.url)) {
+			Address address = new Address(user.getAddress().getName());
+			Address.insert(address, db);
 			String query = insert +
 					"\"" + user.getId() + "\", " +
 					"\"" + user.getName() + "\", " + 
-					"\"" + user.getAddress()	+ "\", " +
+					"\"" + user.getAddress().getName() + "\", " +
 					"\"" + user.getPassword() + "\", " +
 					bestfriend + "); ";
         	Statement stmt1 = conn.createStatement();
@@ -153,22 +156,28 @@ public class User {
         return true;
     }
     
-    public static void update(String id, String[] param, Database db) { 
-        try (Connection conn = DriverManager.getConnection(db.url)){  
-        	String query = update + 
-        			" name = \"" + param[0] + "\"," + 
-        			" address = \"" + param[1] + "\"," + 
-        			" password = \"" + param[2] + "\"," + 
-        			" bestfriend = \"" + param[3] + "\"" + 
-        			" WHERE id == \"" + id + "\" ;";     
-        	Statement stmt = conn.createStatement();
-        	stmt.execute("PRAGMA foreign_keys = ON");
-			System.out.println("Sto per eseguire \n" + query);
-        	PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    public static void update(String id, String[] param, Database db) {
+    	Address check = Address.findByName(param[1], db);
+    	if(check != null) {
+    		try (Connection conn = DriverManager.getConnection(db.url)){  
+    			String query = update + 
+    					" name = \"" + param[0] + "\"," + 
+    					" address = \"" + param[1] + "\"," + 
+    					" password = \"" + param[2] + "\"," + 
+    					" bestfriend = \"" + param[3] + "\"" + 
+    					" WHERE id == \"" + id + "\" ;";     
+    			Statement stmt = conn.createStatement();
+    			stmt.execute("PRAGMA foreign_keys = ON");
+    			System.out.println("Sto per eseguire \n" + query);
+    			PreparedStatement pstmt = conn.prepareStatement(query);
+    			pstmt.executeUpdate();
+    		} catch (SQLException e) {
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    	else {
+    		System.out.println("No Address found");
+    	}
     }
     
     
@@ -181,15 +190,17 @@ public class User {
 			boolean found = false;
 			while(rs.next() && !found) {
 				if(rs.getString("password").equals(password)) {
+					Address address = Address.findByName(rs.getString("address"), db);
 					found = true;
 					User user = new User(rs.getString("id"),
 							rs.getString("name"),
-							rs.getString("address"),
+							address,
 							rs.getString("password"),
 							rs.getString("bestfriend"));
 					rs.close();
 					return user;
 					}
+				// else : next input
 				}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
