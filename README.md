@@ -1,4 +1,4 @@
-# Assignmet8 - Persistency
+# Assignment8 - Persistency
 SQLite and Eclipse project to manage a Design-Pattern implementation for a single User Entity
 
 ### Patterns used 
