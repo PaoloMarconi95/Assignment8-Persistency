@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="design.pattern.User"%>
+<%@page import="design.pattern.User"
+import="design.pattern.Address"%>
 
 <html>
 <head>
@@ -15,11 +16,11 @@
 <p> 
 Your id: ${loggedUser.id} <br>
 Your Name: ${loggedUser.name} <br>
-Your Address: ${loggedUser.address} <br>
+Your Address: ${loggedUser.address.getName()} <br>
 Your Password: ${loggedUser.password} <br>
 Your Best friend: ${loggedUser.bestfriend} <br>
 </p>
-<form name="frm" method="post" action="/Assignment8/Create">
+<form name="frm" method="post" action="/Assignment8/Gateway">
 
 <input type="hidden" name="refId" id="refId" value="${loggedUser.id}"></input>
 
@@ -29,7 +30,7 @@ Your Best friend: ${loggedUser.bestfriend} <br>
 
 <h3>Update your Profile</h3>
 
-<form name="frm" method="post" action="/Assignment8/Create">
+<form name="frm" method="post" action="/Assignment8/Gateway">
 <p>
 Id: <input type="text" name="id"><br>
 Name: <input type="text" name="name"><br>

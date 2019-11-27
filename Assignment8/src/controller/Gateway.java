@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Create")
-public class Create extends HttpServlet {
+@WebServlet("/Gateway")
+public class Gateway extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public Create() {
+	public Gateway() {
 
 	}
 
@@ -102,8 +102,9 @@ public class Create extends HttpServlet {
 		String out;
 		User user = User.findById(request.getParameter("id"), db);
 
-		// If the new best friend does not exists, cancel the operation
-		if (User.findById(request.getParameter("bestfriend"), db) == null) {
+		// If the new best friend does not exists and different from null, cancel the operation
+		if (!request.getParameter("bestfriend").equals("")
+				&& User.findById(request.getParameter("bestfriend"), db) == null) {
 			out = "Bestfriend does not exists (id = " + request.getParameter("bestfriend") + ")";
 		} else {
 			if (user != null) {
@@ -111,7 +112,11 @@ public class Create extends HttpServlet {
 				param[0] = request.getParameter("name");
 				param[1] = request.getParameter("address");
 				param[2] = request.getParameter("password");
-				param[3] = request.getParameter("bestfriend");
+				if (request.getParameter("bestfriend").equals("")) {
+					param[3] = null;
+				} else {
+					param[3] = request.getParameter("bestfriend");
+				}
 				User.update(request.getParameter("id"), param, db);
 				out = "User correctly updated";
 			} else {

@@ -119,14 +119,20 @@ public class User {
 		}
 		else {
 			bestfriend = "\"" + user.getBestfriend() + "\"";
-		}			
+		}
 		try (Connection conn = DriverManager.getConnection(db.url)) {
-			Address address = new Address(user.getAddress().getName());
+			Address address = Address.findByName(user.getAddress().getName(), db);
+			if(address == null) {
+			address = new Address(user.getAddress().getName());
 			Address.insert(address, db);
+			}
+			else {
+				// use the already found value for address 
+			}
 			String query = insert +
 					"\"" + user.getId() + "\", " +
 					"\"" + user.getName() + "\", " + 
-					"\"" + user.getAddress().getName() + "\", " +
+					"\"" + address.getName() + "\", " +
 					"\"" + user.getPassword() + "\", " +
 					bestfriend + "); ";
         	Statement stmt1 = conn.createStatement();
@@ -157,14 +163,20 @@ public class User {
     }
     
     public static void update(String id, String[] param, Database db) {
-    	Address check = Address.findByName(param[1], db);
-    	if(check != null) {
-    		try (Connection conn = DriverManager.getConnection(db.url)){  
+    	Address address = Address.findByName(param[1], db);
+    	if(address == null) {
+    		address = new Address(param[1]);
+    		Address.insert(address, db);
+    	}
+    	if(param[3] != null) {
+    		param[3] = "\"" + param[3] + "\"";
+    	}
+    	try (Connection conn = DriverManager.getConnection(db.url)){  
     			String query = update + 
     					" name = \"" + param[0] + "\"," + 
-    					" address = \"" + param[1] + "\"," + 
+    					" address = \"" + address.getName() + "\"," + 
     					" password = \"" + param[2] + "\"," + 
-    					" bestfriend = \"" + param[3] + "\"" + 
+    					" bestfriend = " + param[3] + "" + 
     					" WHERE id == \"" + id + "\" ;";     
     			Statement stmt = conn.createStatement();
     			stmt.execute("PRAGMA foreign_keys = ON");
@@ -174,10 +186,6 @@ public class User {
     		} catch (SQLException e) {
     			System.out.println(e.getMessage());
     		}
-    	}
-    	else {
-    		System.out.println("No Address found");
-    	}
     }
     
     

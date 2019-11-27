@@ -19,7 +19,7 @@ String error = (String)request.getAttribute("error");
 
 <h1>Register</h1>
 
-<form name="frm" method="post" action="/Assignment8/Create">
+<form name="frm" method="post" action="/Assignment8/Gateway">
 
 Id: <input type="text" name="id"><br>
 Name: <input type="text" name="name"><br>

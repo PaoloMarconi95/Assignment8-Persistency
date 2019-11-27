@@ -9,7 +9,7 @@
 <body>
 Login
 
-<form name="frm" method="post" action="/Assignment8/Create">
+<form name="frm" method="post" action="/Assignment8/Gateway">
 
 Name: <input type="text" name="name">
 Password: <input type="password" name="password">

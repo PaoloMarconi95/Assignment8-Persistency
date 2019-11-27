@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="design.pattern.User"%>
+<%@page import="design.pattern.User"
+import="design.pattern.Address"%>
 <html>
 
 <head>
@@ -16,7 +17,7 @@
 
 <p>Search by</p>
 
-<form name="frm" method="get" action="/Assignment8/Create">
+<form name="frm" method="get" action="/Assignment8/Gateway">
 
   <input type="radio" name="by" value="name" checked> Name<br>
   <input type="radio" name="by" value="address"> Address<br>
@@ -33,7 +34,7 @@ if((User)request.getAttribute("loggedUser") != null){ %>
 <p> 
 Id found: ${loggedUser.id} <br>
 Name found: ${loggedUser.name} <br>
-Address found: ${loggedUser.address} <br>
+Address found: ${loggedUser.address.getName()} <br>
 Password found: ${loggedUser.password} <br>
 Best friend found: ${loggedUser.bestfriend} <br>
 </p>
