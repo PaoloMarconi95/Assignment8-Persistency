@@ -173,6 +173,7 @@ public class User {
     	}
     	try (Connection conn = DriverManager.getConnection(db.url)){  
     			String query = update + 
+    					" id = \"" + param[4] + "\"," + 
     					" name = \"" + param[0] + "\"," + 
     					" address = \"" + address.getName() + "\"," + 
     					" password = \"" + param[2] + "\"," + 

@@ -32,6 +32,7 @@ Your Best friend: ${loggedUser.bestfriend} <br>
 
 <form name="frm" method="post" action="/Assignment8/Gateway">
 <p>
+<input type="hidden" name="refId" id="refId" value="${loggedUser.id}"></input>
 Id: <input type="text" name="id"><br>
 Name: <input type="text" name="name"><br>
 Address: <input type="text" name="address"><br>

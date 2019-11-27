@@ -100,7 +100,7 @@ public class Gateway extends HttpServlet {
 	private void update(HttpServletRequest request, HttpServletResponse response, Database db)
 			throws ServletException, IOException {
 		String out;
-		User user = User.findById(request.getParameter("id"), db);
+		User user = User.findById(request.getParameter("refId"), db);
 
 		// If the new best friend does not exists and different from null, cancel the operation
 		if (!request.getParameter("bestfriend").equals("")
@@ -108,7 +108,7 @@ public class Gateway extends HttpServlet {
 			out = "Bestfriend does not exists (id = " + request.getParameter("bestfriend") + ")";
 		} else {
 			if (user != null) {
-				String[] param = new String[4];
+				String[] param = new String[5];
 				param[0] = request.getParameter("name");
 				param[1] = request.getParameter("address");
 				param[2] = request.getParameter("password");
@@ -117,7 +117,8 @@ public class Gateway extends HttpServlet {
 				} else {
 					param[3] = request.getParameter("bestfriend");
 				}
-				User.update(request.getParameter("id"), param, db);
+				param[4] = request.getParameter("id");
+				User.update(request.getParameter("refId"), param, db);
 				out = "User correctly updated";
 			} else {
 				out = "No result found with id = " + request.getParameter("id");
