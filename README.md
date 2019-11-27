@@ -1,6 +1,16 @@
 # Assignmet8Swing
 SQLite and Eclipse project to manage a Design-Pattern implementation for a single User Entity
 
-### Pattern used 
+### Patterns used 
 
-Active Record Gateway
+- Active Record Gateway (Entity - Database)
+
+- MVC (Front end to Back end)
+
+- Singleton (Database)
+
+
+### Simplified Class diagram
+
+
+![](https://i.ibb.co/gWrB329/Class-Diagram.png)
